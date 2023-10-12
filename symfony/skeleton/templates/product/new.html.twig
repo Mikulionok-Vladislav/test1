@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создание нового продукта{% endblock %}
+
+{% block body %}
+    <h1>Создание нового продукта</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('product_index') }}">Вернуться к списку продуктов</a>
+{% endblock %}

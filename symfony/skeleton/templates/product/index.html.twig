@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список продуктов{% endblock %}
+
+{% block body %}
+    <h1>Список продуктов</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>price</th>
+            <th>createdat</th>
+            <th>updatedat</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+{#                <td>{{ product.createdAt.format('Y')}}</td>#}
+{#                <td>{{ product.updatedAt.format('Y')}}</td>#}
+                <td>
+                    <a href="{{ path('product_show', {'id': product.id}) }}">Просмотр</a>
+                    <a href="{{ path('product_edit', {'id': product.id}) }}">Редактировать</a>
+                    <form method="post" action="{{ path('product_delete', {'id': product.id}) }}" onsubmit="return confirm('Вы уверены?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                        <button type="submit">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <a href="{{ path('product_new') }}">Создать новый продукт</a>
+{% endblock %}

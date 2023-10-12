@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Просмотр продукта{% endblock %}
+
+{% block body %}
+    <h1>Просмотр продукта</h1>
+
+    <dl>
+        <dt>Название:</dt>
+        <dd>{{ product.name }}</dd>
+        <dt>Цена:</dt>
+        <dd>{{ product.price }}</dd>
+        <dt>Дата создания:</dt>
+        <dd>{{ product.createdAt|date('Y-m-d H:i:s') }}</dd>
+        <dt>Дата обновления:</dt>
+        <dd>{{ product.updatedAt|date('Y-m-d H:i:s') }}</dd>
+    </dl>
+
+    <a href="{{ path('product_index') }}">Вернуться к списку продуктов</a>
+{% endblock %}
