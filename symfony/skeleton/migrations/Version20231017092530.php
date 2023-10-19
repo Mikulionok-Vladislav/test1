@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230924075632 extends AbstractMigration
+final class Version20231017092530 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -36,7 +36,7 @@ final class Version20230924075632 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_CD6DAAA4D351EC ON employee_product_cabinet (cabinet_id)');
         $this->addSql('CREATE INDEX IDX_CD6DAAA44584665A ON employee_product_cabinet (product_id)');
         $this->addSql('CREATE INDEX IDX_CD6DAAA48C03F15C ON employee_product_cabinet (employee_id)');
-        $this->addSql('CREATE TABLE office (id INT NOT NULL, name VARCHAR(30) NOT NULL, address VARCHAR(80) NOT NULL, type VARCHAR(30) DEFAULT NULL, numberofstaff VARCHAR(30) DEFAULT NULL, phone_number VARCHAR(30) DEFAULT NULL, email VARCHAR(30) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE office (id INT NOT NULL, name VARCHAR(80) NOT NULL, address VARCHAR(80) NOT NULL, type VARCHAR(80) DEFAULT NULL, numberofstaff VARCHAR(80) DEFAULT NULL, phone_number VARCHAR(80) DEFAULT NULL, email VARCHAR(80) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE phone (id INT NOT NULL, employee_id INT DEFAULT NULL, phone VARCHAR(50) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_444F97DD8C03F15C ON phone (employee_id)');
         $this->addSql('CREATE TABLE product (id INT NOT NULL, name VARCHAR(50) NOT NULL, price INT NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
@@ -51,6 +51,7 @@ final class Version20230924075632 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE cabinet_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE email_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE employee_id_seq CASCADE');
