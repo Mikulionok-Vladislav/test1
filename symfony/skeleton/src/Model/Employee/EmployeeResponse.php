@@ -16,12 +16,16 @@ class EmployeeResponse
 
     /** @var PhoneResponse[]  */
     private array $phone;
-    public function __construct($id,string $firstname, string $lastname, string $middlename, array $email, array $phone)
+    private ?\DateTimeInterface $createdAt;
+    private ?\DateTimeInterface $updatedAt;
+    public function __construct($id,string $firstname, string $lastname, string $middlename, ?\DateTimeInterface $createdAt, ?\DateTimeInterface $updatedAt, array $email, array $phone)
     {
         $this->id=$id;
         $this->firstname=$firstname;
         $this->lastname=$lastname;
         $this->middlename=$middlename;
+        $this->createdAt=$createdAt;
+        $this->updatedAt=$updatedAt;
         $this->email=$email;
         $this->phone=$phone;
     }
@@ -67,5 +71,15 @@ class EmployeeResponse
     public function getPhone(): array
     {
         return $this->phone;
+    }
+
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
     }
 }

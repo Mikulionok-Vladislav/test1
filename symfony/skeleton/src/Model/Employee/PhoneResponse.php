@@ -5,12 +5,16 @@ namespace App\Model\Employee;
 class PhoneResponse
 {
     private  $id;
-    private string $email;
+    private string $phone;
+    private ?\DateTimeInterface $createdAt;
+    private ?\DateTimeInterface $updatedAt;
 
-    public function __construct($id, string $email)
+    public function __construct($id, string $phone, ?\DateTimeInterface $createdAt, ?\DateTimeInterface $updatedAt)
     {
         $this->id=$id;
-        $this->email=$email;
+        $this->phone=$phone;
+        $this->createdAt=$createdAt;
+        $this->updatedAt=$updatedAt;
     }
 
     /**
@@ -24,8 +28,18 @@ class PhoneResponse
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getPhone(): string
     {
-        return $this->email;
+        return $this->phone;
+    }
+
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
     }
 }

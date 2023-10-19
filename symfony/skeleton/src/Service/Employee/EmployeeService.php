@@ -29,17 +29,19 @@ class EmployeeService
     {
         $emails = [];
         foreach ($employee->getEmail() as $email) {
-            $emails[] = new EmailResponse($email->getId(), $email->getEmail());
+            $emails[] = new EmailResponse($email->getId(), $email->getEmail(), $email->getCreatedAt(), $email->getUpdatedAt());
         }
         $phones = [];
         foreach ($employee->getPhone() as $phone) {
-            $phones[] = new PhoneResponse($phone->getId(), $phone->getPhone());
+            $phones[] = new PhoneResponse($phone->getId(), $phone->getPhone(), $phone->getCreatedAt(), $phone->getUpdatedAt());
         }
         return new EmployeeResponse(
             $employee->getId(),
             $employee->getFirstname(),
             $employee->getLastname(),
             $employee->getMiddlename(),
+            $employee->getCreatedAt(),
+            $employee->getUpdatedAt(),
             $emails,
             $phones
         );
