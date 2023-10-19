@@ -47,12 +47,12 @@ class Email
     private $updatedAt;
 
     /**
-     * @var \Employee
      *
-     * @ORM\ManyToOne(targetEntity="Employee")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="employee_id", referencedColumnName="id")
-     * })
+     *
+     * @ORM\ManyToOne(targetEntity="Employee", inversedBy="email", cascade={"ALL"})
+     *
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
+     *
      */
     private $employee;
 

@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * Employee
+ * EmployeeResponse
  *
  * @ORM\Table(name="employee")
  * @ORM\Entity
@@ -68,6 +72,37 @@ class Employee
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity= "Email", mappedBy="employee")
+     */
+    private Collection $email;
+
+    public function __construct()
+    {
+        $this->email = new ArrayCollection();
+        $this->phone = new ArrayCollection();
+    }
+
+    public function getEmail()
+    {
+        return $this->email->toArray();
+    }
+
+    /**
+     *
+     * @ORM\OneToMany(targetEntity= "Phone", mappedBy="employee")
+     */
+    private Collection $phone;
+
+    public function getPhone()
+    {
+        return $this->phone->toArray();
+    }
+
+
+
 
     public function getId(): ?int
     {
@@ -141,6 +176,5 @@ class Employee
 
         return $this;
     }
-
 
 }

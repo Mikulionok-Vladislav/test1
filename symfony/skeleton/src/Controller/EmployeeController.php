@@ -2,10 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Email;
 use App\Entity\Employee;
+use App\Entity\Phone;
+use App\Model\Employee\EmailResponse;
+use App\Model\Employee\EmployeeResponse;
+use App\Model\Employee\PhoneResponse;
 use App\Request\Employee\EmployeeRequest;
 use App\Service\Employee\EmployeeService;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +25,15 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee', name: 'employee_list', methods: ['GET'])]
-    public function employeeList():JsonResponse
+    public function employeeList()
     {
         $employee = $this->entityManager->getRepository(Employee::class)->findAll();
+
+//        $jsonContent = $serializer->serialize($employee, 'json', [
+//            'circular_reference_handler' => function ($object) {
+//                return $object->getId();
+//            }
+//        ]);
 
         return $this->json($employee);
     }
@@ -29,7 +41,9 @@ class EmployeeController extends AbstractController
     #[Route('/employee/{id}', name: 'show_employee', methods: ['GET'])]
     public function getEmployee(Employee $employee): JsonResponse
     {
-        return $this->json();
+        $response = $this->employeeService->showEmployee($employee);
+
+        return $this->json($response);
     }
 
     #[Route('/employee', name: 'create_employee', methods: ['POST'])]
