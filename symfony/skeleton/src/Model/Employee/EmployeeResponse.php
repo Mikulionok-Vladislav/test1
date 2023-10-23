@@ -15,7 +15,7 @@ class EmployeeResponse
     private  $email;
 
     /** @var PhoneResponse[]  */
-    private array $phone;
+    private $phone;
     private ?\DateTimeInterface $createdAt;
     private ?\DateTimeInterface $updatedAt;
     public function __construct($id,string $firstname, string $lastname, string $middlename, ?\DateTimeInterface $createdAt, ?\DateTimeInterface $updatedAt, array $email, array $phone)

@@ -78,6 +78,11 @@ class Employee
      * @ORM\OneToMany(targetEntity= "Email", mappedBy="employee")
      */
     private Collection $email;
+    /**
+     *
+     * @ORM\OneToMany(targetEntity= "Phone", mappedBy="employee")
+     */
+    private Collection $phone;
 
     public function __construct()
     {
@@ -90,11 +95,6 @@ class Employee
         return $this->email->toArray();
     }
 
-    /**
-     *
-     * @ORM\OneToMany(targetEntity= "Phone", mappedBy="employee")
-     */
-    private Collection $phone;
 
     public function getPhone()
     {

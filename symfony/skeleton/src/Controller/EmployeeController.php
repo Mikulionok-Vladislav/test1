@@ -2,16 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Email;
 use App\Entity\Employee;
-use App\Entity\Phone;
-use App\Model\Employee\EmailResponse;
-use App\Model\Employee\EmployeeResponse;
-use App\Model\Employee\PhoneResponse;
 use App\Request\Employee\EmployeeRequest;
 use App\Service\Employee\EmployeeService;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +19,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee', name: 'employee_list', methods: ['GET'])]
-    public function employeeList()
+    public function employeeList():JsonResponse
     {
         $employee = $this->entityManager->getRepository(Employee::class)->findAll();
 
@@ -35,6 +29,7 @@ class EmployeeController extends AbstractController
 //            }
 //        ]);
 
+        dd($employee);
         return $this->json($employee);
     }
 
@@ -42,7 +37,6 @@ class EmployeeController extends AbstractController
     public function getEmployee(Employee $employee): JsonResponse
     {
         $response = $this->employeeService->showEmployee($employee);
-
         return $this->json($response);
     }
 
@@ -51,8 +45,7 @@ class EmployeeController extends AbstractController
     {
         $employee = $this->employeeService->createEmployee($request);
         $this->entityManager->flush();
-
-        return $this->json($employee,JsonResponse::HTTP_CREATED);}
+        return $this->json($this->employeeService->showEmployee($employee),JsonResponse::HTTP_CREATED);}
 
 
     #[Route('/employee/{id}', name: 'employee_delete', methods: ['DELETE'])]
@@ -71,7 +64,7 @@ class EmployeeController extends AbstractController
         $employee = $this->employeeService->editEmployee($employee, $request);
         $this->entityManager->flush();
 
-        return $this->json($employee,JsonResponse::HTTP_ACCEPTED);
+        return $this->json($this->employeeService->showEmployee($employee),JsonResponse::HTTP_ACCEPTED);
 
     }
 }
