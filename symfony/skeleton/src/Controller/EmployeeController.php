@@ -22,14 +22,14 @@ class EmployeeController extends AbstractController
     public function employeeList():JsonResponse
     {
         $employee = $this->entityManager->getRepository(Employee::class)->findAll();
-
         return $this->json($employee);
     }
 
     #[Route('/employee/{id}', name: 'show_employee', methods: ['GET'])]
     public function getEmployee(Employee $employee): JsonResponse
     {
-        return $this->json();
+        $response = $this->employeeService->showEmployee($employee);
+        return $this->json($response);
     }
 
     #[Route('/employee', name: 'create_employee', methods: ['POST'])]
@@ -37,8 +37,7 @@ class EmployeeController extends AbstractController
     {
         $employee = $this->employeeService->createEmployee($request);
         $this->entityManager->flush();
-
-        return $this->json($employee,JsonResponse::HTTP_CREATED);}
+        return $this->json($this->employeeService->showEmployee($employee), JsonResponse::HTTP_CREATED);}
 
 
     #[Route('/employee/{id}', name: 'employee_delete', methods: ['DELETE'])]
@@ -57,7 +56,7 @@ class EmployeeController extends AbstractController
         $employee = $this->employeeService->editEmployee($employee, $request);
         $this->entityManager->flush();
 
-        return $this->json($employee,JsonResponse::HTTP_ACCEPTED);
+        return $this->json($this->employeeService->showEmployee($employee),JsonResponse::HTTP_ACCEPTED);
 
     }
 }

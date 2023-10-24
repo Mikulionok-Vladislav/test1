@@ -36,12 +36,12 @@ class PhoneFixture extends Fixture implements DependentFixtureInterface
     public function getRange()
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $productRepository = $entityManager->getRepository(Employee::class);
-        $maxId = $productRepository->createQueryBuilder('p')
+        $employeeRepository = $entityManager->getRepository(Employee::class);
+        $maxId = $employeeRepository->createQueryBuilder('p')
             ->select('MAX(p.id)')
             ->getQuery()
             ->getSingleScalarResult();
-        $minId = $productRepository->createQueryBuilder('p')
+        $minId = $employeeRepository->createQueryBuilder('p')
             ->select('MIN(p.id)')
             ->getQuery()
             ->getSingleScalarResult();
@@ -56,8 +56,8 @@ class PhoneFixture extends Fixture implements DependentFixtureInterface
     public function getEmployee()
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $productRepository = $entityManager->getRepository(Employee::class);
-        return $productRepository->findOneBy(['id'=>$this->getRange()]);
+        $employeeRepository = $entityManager->getRepository(Employee::class);
+        return $employeeRepository->findOneBy(['id'=>$this->getRange()]);
     }
 
     public function load(ObjectManager $manager)

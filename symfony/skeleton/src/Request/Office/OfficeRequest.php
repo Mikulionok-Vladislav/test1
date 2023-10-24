@@ -59,7 +59,6 @@ class OfficeRequest extends BaseRequest
         return $this->email;
     }
 
-
     protected function autoValidateRequest(): bool
     {
         return true;
