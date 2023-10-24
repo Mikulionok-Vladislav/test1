@@ -12,14 +12,22 @@ class EmployeeResponse
     private string $middlename;
 
     /** @var EmailResponse[]  */
-    private  $email;
+    private array $email;
 
     /** @var PhoneResponse[]  */
-    private $phone;
+    private array $phone;
     private ?\DateTimeInterface $createdAt;
     private ?\DateTimeInterface $updatedAt;
-    public function __construct($id,string $firstname, string $lastname, string $middlename, ?\DateTimeInterface $createdAt, ?\DateTimeInterface $updatedAt, array $email, array $phone)
-    {
+    public function __construct(
+        int $id,
+        string $firstname,
+        string $lastname,
+        string $middlename,
+        ?\DateTimeInterface $createdAt,
+        ?\DateTimeInterface $updatedAt,
+        array $email,
+        array $phone
+    ){
         $this->id=$id;
         $this->firstname=$firstname;
         $this->lastname=$lastname;
@@ -31,38 +39,26 @@ class EmployeeResponse
     }
 
 
-    public function getEmail()
+    public function getEmail(): array
     {
         return $this->email;
     }
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    /**
-     * @return string
-     */
     public function getLastname(): string
     {
         return $this->lastname;
     }
 
-    /**
-     * @return string
-     */
     public function getMiddlename(): string
     {
         return $this->middlename;

@@ -25,16 +25,16 @@ class EmployeeService
         $employee->setMiddlename($request->getMiddlename());
         $this->entityManager->persist($employee);
 
-        foreach ($request->getEmail() as $key) {
+        foreach ($request->getEmail() as $emailItem) {
             $email = new Email();
-            $email->setEmail($key['email']);
+            $email->setEmail($emailItem['email']);
             $email->setEmployee($employee);
             $this->entityManager->persist($email);
         }
 
-        foreach ($request->getPhone() as $key) {
+        foreach ($request->getPhone() as $phoneItem) {
             $phone = new Phone();
-            $phone->setPhone($key['phone']);
+            $phone->setPhone($phoneItem['phone']);
             $phone->setEmployee($employee);
             $this->entityManager->persist($phone);
         }
@@ -70,30 +70,29 @@ class EmployeeService
         $employee->setLastname($request->getLastname());
         $employee->setMiddlename($request->getMiddlename());
 
-        foreach ($request->getEmail() as $key) {
-            if ($key['id']) {
-                $email = $this->entityManager->getRepository(Email::class)->find($key['id']);
-                $email->setEmail($key['email']);
+        foreach ($request->getEmail() as $emailItem) {
+            if ($emailItem['id']) {
+                $email = $this->entityManager->getRepository(Email::class)->find($emailItem['id']);
+                $email->setEmail($emailItem['email']);
             } else {
                 $email = new Email();
-                $email->setEmail($key['email']);
+                $email->setEmail($emailItem['email']);
                 $email->setEmployee($employee);
                 $this->entityManager->persist($email);
             }
         }
 
-        foreach ($request->getPhone() as $key) {
-            if ($key['id']) {
-                $phone = $this->entityManager->getRepository(Phone::class)->find($key['id']);
-                $phone->setPhone($key['phone']);
+        foreach ($request->getPhone() as $phoneItem) {
+            if ($phoneItem['id']) {
+                $phone = $this->entityManager->getRepository(Phone::class)->find($phoneItem['id']);
+                $phone->setPhone($phoneItem['phone']);
             } else {
                 $phone = new Phone();
-                $phone->setPhone($key['phone']);
+                $phone->setPhone($phoneItem['phone']);
                 $phone->setEmployee($employee);
                 $this->entityManager->persist($phone);
             }
         }
-
 
         return $employee;
     }
