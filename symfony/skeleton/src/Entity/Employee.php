@@ -6,7 +6,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Json;
 
 
 /**
@@ -17,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks()
  *
  */
-class Employee
+class Employee implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
@@ -74,6 +77,16 @@ class Employee
     private $updatedAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     *
+     * @Assert\NotBlank(message="Passworn cannot be blank")
+     * @Assert\Length(max=255, maxMessage="Password is too long")
+     */
+    private $password;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity= "Email", mappedBy="employee")
      */
@@ -83,11 +96,30 @@ class Employee
      * @ORM\OneToMany(targetEntity= "Phone", mappedBy="employee")
      */
     private Collection $phone;
+    /**
+*@ORM\Column(name="roles", type="json", length=50, nullable=false)
+*/
+    private $roles = [];
+
 
     public function __construct()
     {
         $this->email = new ArrayCollection();
         $this->phone = new ArrayCollection();
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function getEmail()
@@ -177,4 +209,23 @@ class Employee
         return $this;
     }
 
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->firstname;
+    }
 }

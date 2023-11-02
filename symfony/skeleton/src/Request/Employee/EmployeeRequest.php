@@ -56,6 +56,10 @@ class EmployeeRequest extends BaseRequest
     )]
     protected array $phone;
 
+    #[NotBlank]
+    #[Length(max:255, maxMessage:"Password is too long")]
+    protected string $password;
+
     public function getMiddlename(): string
     {
         return $this->middlename;
@@ -79,6 +83,11 @@ class EmployeeRequest extends BaseRequest
     public function getPhone(): array
     {
         return $this->phone;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
 

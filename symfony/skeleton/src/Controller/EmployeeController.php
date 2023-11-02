@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EmployeeController extends AbstractController
 {
@@ -22,10 +23,12 @@ class EmployeeController extends AbstractController
     public function employeeList():JsonResponse
     {
         $employee = $this->entityManager->getRepository(Employee::class)->findAll();
-        return $this->json($employee);
+        $response = $this->employeeService->listEmployee($employee);
+        return $this->json($response);
     }
 
     #[Route('/employee/{id}', name: 'show_employee', methods: ['GET'])]
+    #[IsGranted('view', 'employee')]
     public function getEmployee(Employee $employee): JsonResponse
     {
         $response = $this->employeeService->showEmployee($employee);
@@ -33,6 +36,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee', name: 'create_employee', methods: ['POST'])]
+    #[IsGranted('create', 'request')]
     public function createEmployee(EmployeeRequest $request): JsonResponse
     {
         $employee = $this->employeeService->createEmployee($request);
@@ -41,6 +45,7 @@ class EmployeeController extends AbstractController
 
 
     #[Route('/employee/{id}', name: 'employee_delete', methods: ['DELETE'])]
+    #[IsGranted('delete', 'employee')]
     public function deleteEmployee(Employee $employee): Response
     {
 
@@ -51,6 +56,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee/{id}', name: 'employee_edit', methods: ['PUT'])]
+    #[IsGranted('edit', 'employee')]
     public function editEmployee(EmployeeRequest $request, Employee $employee): JsonResponse
     {
         $employee = $this->employeeService->editEmployee($employee, $request);

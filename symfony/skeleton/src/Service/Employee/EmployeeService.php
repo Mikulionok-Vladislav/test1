@@ -10,19 +10,51 @@ use App\Model\Employee\EmployeeResponse;
 use App\Model\Employee\PhoneResponse;
 use App\Request\Employee\EmployeeRequest;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EmployeeService
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private UserPasswordHasherInterface $passwordHasher)
     {
     }
 
+    public function listEmployee(array $employee): array
+    {
+
+        foreach ($employee as $employeeItem){
+            $emails = [];
+            foreach ($employeeItem->getEmail() as $email) {
+                $emails[] = new EmailResponse($email->getId(), $email->getEmail(), $email->getCreatedAt(), $email->getUpdatedAt());
+            }
+            $phones = [];
+            foreach ($employeeItem->getPhone() as $phone) {
+                $phones[] = new PhoneResponse($phone->getId(), $phone->getPhone(), $phone->getCreatedAt(), $phone->getUpdatedAt());
+            }
+            $employeeItem =  new EmployeeResponse(
+                $employeeItem->getId(),
+                $employeeItem->getFirstname(),
+                $employeeItem->getLastname(),
+                $employeeItem->getMiddlename(),
+                $employeeItem->getCreatedAt(),
+                $employeeItem->getUpdatedAt(),
+                $emails,
+                $phones
+            );
+        }
+        return $employee;
+    }
     public function createEmployee(EmployeeRequest $request): Employee
     {
         $employee = new Employee();
+        $hashedPassword = $this->passwordHasher->hashPassword(
+            $employee,
+            $request->getPassword()
+        );
         $employee->setFirstname($request->getFirstname());
         $employee->setLastname($request->getLastname());
         $employee->setMiddlename($request->getMiddlename());
+        $employee->setPassword($hashedPassword);
+        $employee->setRoles(['ROLE_USER']);
         $this->entityManager->persist($employee);
 
         foreach ($request->getEmail() as $emailItem) {
@@ -38,6 +70,7 @@ class EmployeeService
             $phone->setEmployee($employee);
             $this->entityManager->persist($phone);
         }
+
 
         return $employee;
     }
