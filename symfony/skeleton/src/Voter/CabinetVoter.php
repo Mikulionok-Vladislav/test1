@@ -2,14 +2,15 @@
 
 namespace App\Voter;
 
+use App\Entity\Cabinet;
 use App\Entity\Employee;
 use App\Enum\Roles;
-use App\Request\Employee\EmployeeRequest;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-class EmployeeVoter extends Voter
+
+class CabinetVoter extends Voter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
@@ -31,9 +32,9 @@ class EmployeeVoter extends Voter
             return true;
         }
 
-        if (!$subject instanceof Employee) {
-            if(!$subject instanceof EmployeeRequest){
-            return false;
+        if (!$subject instanceof Cabinet) {
+            if(!$subject instanceof CabinetRequest){
+                return false;
             }
         }
 
@@ -48,12 +49,12 @@ class EmployeeVoter extends Voter
             return false;
         }
 
-        /** @var Employee $employee */
-        $employee = $subject;
+        /** @var Cabinet $cabinet */
+        $cabinet = $subject;
 
         return match($attribute) {
-            self::VIEW => $this->canView($employee, $user),
-            self::EDIT => $this->canEdit($employee, $user),
+            self::VIEW => $this->canView($cabinet, $user),
+            self::EDIT => $this->canEdit($cabinet, $user),
             self::DELETE => $this->canDelete($user),
             self::CREATE => $this->canCreate($user),
             self::LIST=>$this->canList($user),
@@ -61,13 +62,13 @@ class EmployeeVoter extends Voter
         };
     }
 
-    private function canView(Employee $employee, Employee $user): bool
+    private function canView(Cabinet $cabinet, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
-                if($user->getId() === $employee->getId()) {
+                if($user === $cabinet->getEmployee()) {
                     return true;
                 }
             }
@@ -75,13 +76,13 @@ class EmployeeVoter extends Voter
         return false;
     }
 
-    private function canEdit(Employee $employee, Employee $user): bool
+    private function canEdit(Cabinet $cabinet, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
-                if($user->getId() === $employee->getId()) {
+                if($user === $cabinet->getEmployee()) {
                     return true;
                 }
             }

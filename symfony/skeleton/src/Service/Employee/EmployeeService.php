@@ -20,7 +20,7 @@ class EmployeeService
 
     public function listEmployee(array $employee): array
     {
-
+        $employeeList = [];
         foreach ($employee as $employeeItem){
             $emails = [];
             foreach ($employeeItem->getEmail() as $email) {
@@ -30,7 +30,7 @@ class EmployeeService
             foreach ($employeeItem->getPhone() as $phone) {
                 $phones[] = new PhoneResponse($phone->getId(), $phone->getPhone(), $phone->getCreatedAt(), $phone->getUpdatedAt());
             }
-            $employeeItem =  new EmployeeResponse(
+            $employeeList[] = new EmployeeResponse(
                 $employeeItem->getId(),
                 $employeeItem->getFirstname(),
                 $employeeItem->getLastname(),
@@ -41,7 +41,7 @@ class EmployeeService
                 $phones
             );
         }
-        return $employee;
+        return $employeeList;
     }
     public function createEmployee(EmployeeRequest $request): Employee
     {

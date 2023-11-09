@@ -3,13 +3,14 @@
 namespace App\Voter;
 
 use App\Entity\Employee;
+use App\Entity\Office;
 use App\Enum\Roles;
-use App\Request\Employee\EmployeeRequest;
+use App\Request\Office\OfficeRequest;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class EmployeeVoter extends Voter
+class OfficeVoter extends Voter
 {
     const VIEW = 'view';
     const EDIT = 'edit';
@@ -31,9 +32,9 @@ class EmployeeVoter extends Voter
             return true;
         }
 
-        if (!$subject instanceof Employee) {
-            if(!$subject instanceof EmployeeRequest){
-            return false;
+        if (!$subject instanceof Office) {
+            if(!$subject instanceof OfficeRequest){
+                return false;
             }
         }
 
@@ -48,12 +49,12 @@ class EmployeeVoter extends Voter
             return false;
         }
 
-        /** @var Employee $employee */
-        $employee = $subject;
+        /** @var Office $office */
+        $office = $subject;
 
         return match($attribute) {
-            self::VIEW => $this->canView($employee, $user),
-            self::EDIT => $this->canEdit($employee, $user),
+            self::VIEW => $this->canView($office, $user),
+            self::EDIT => $this->canEdit($office, $user),
             self::DELETE => $this->canDelete($user),
             self::CREATE => $this->canCreate($user),
             self::LIST=>$this->canList($user),
@@ -61,13 +62,13 @@ class EmployeeVoter extends Voter
         };
     }
 
-    private function canView(Employee $employee, Employee $user): bool
+    private function canView(Office $office, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
-                if($user->getId() === $employee->getId()) {
+                if($user === $office->getEmployee()) {
                     return true;
                 }
             }
@@ -75,13 +76,13 @@ class EmployeeVoter extends Voter
         return false;
     }
 
-    private function canEdit(Employee $employee, Employee $user): bool
+    private function canEdit(Office $office, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
-                if($user->getId() === $employee->getId()) {
+                if($user === $office->getEmployee()) {
                     return true;
                 }
             }

@@ -20,6 +20,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee', name: 'employee_list', methods: ['GET'])]
+    #[IsGranted('list', '')]
     public function employeeList():JsonResponse
     {
         $employee = $this->entityManager->getRepository(Employee::class)->findAll();
@@ -56,7 +57,7 @@ class EmployeeController extends AbstractController
     }
 
     #[Route('/employee/{id}', name: 'employee_edit', methods: ['PUT'])]
-    #[IsGranted('edit', 'employee')]
+    #[IsGranted('edit', 'request')]
     public function editEmployee(EmployeeRequest $request, Employee $employee): JsonResponse
     {
         $employee = $this->employeeService->editEmployee($employee, $request);

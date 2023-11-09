@@ -80,6 +80,15 @@ class Office
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+    /**
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Employee")
+     *
+     *   @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
+     *
+     */
+    private  Employee $employee;
 
     public function getId(): ?int
     {
@@ -186,6 +195,17 @@ class Office
     public function setUpdatedAt(): static
     {
         $this->updatedAt = new \DateTime();
+
+        return $this;
+    }
+    public function getEmployee(): ?Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(?Employee $employee): static
+    {
+        $this->employee = $employee;
 
         return $this;
     }
