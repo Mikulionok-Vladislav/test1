@@ -1,0 +1,41 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20231109005040 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE cabinet ADD employee_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE cabinet ADD CONSTRAINT FK_4CED05B08C03F15C FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_4CED05B08C03F15C ON cabinet (employee_id)');
+        $this->addSql('ALTER TABLE office ADD employee_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE office ADD CONSTRAINT FK_74516B028C03F15C FOREIGN KEY (employee_id) REFERENCES employee (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX IDX_74516B028C03F15C ON office (employee_id)');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE cabinet DROP CONSTRAINT FK_4CED05B08C03F15C');
+        $this->addSql('DROP INDEX IDX_4CED05B08C03F15C');
+        $this->addSql('ALTER TABLE cabinet DROP employee_id');
+        $this->addSql('ALTER TABLE office DROP CONSTRAINT FK_74516B028C03F15C');
+        $this->addSql('DROP INDEX IDX_74516B028C03F15C');
+        $this->addSql('ALTER TABLE office DROP employee_id');
+    }
+}

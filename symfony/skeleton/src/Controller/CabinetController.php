@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CabinetController extends AbstractController
 {
@@ -19,20 +20,23 @@ class CabinetController extends AbstractController
     }
 
     #[Route('/cabinet', name: 'cabinet_list', methods: ['GET'])]
+    #[IsGranted('list', '')]
     public function cabinetList():JsonResponse
     {
-        $cabinet = $this->entityManager->getRepository(Cabinet::class)->findAll();
-
-        return $this->json($cabinet);
+        $response = $this->cabinetService->listCabinet();
+        return $this->json($response);
     }
 
     #[Route('/cabinet/{id}', name: 'show_cabinet', methods: ['GET'])]
+    #[IsGranted('view', 'cabinet')]
     public function getCabinet(Cabinet $cabinet): JsonResponse
     {
-        return $this->json($cabinet);
+        $response = $this->cabinetService->showCabinet($cabinet);
+        return $this->json($response);
     }
 
     #[Route('/cabinet', name: 'create_cabinet', methods: ['POST'])]
+    #[IsGranted('create', 'request')]
     public function createCabinet(CabinetRequest $request): JsonResponse
     {
         $cabinet = $this->cabinetService->createCabinet($request);
@@ -42,6 +46,7 @@ class CabinetController extends AbstractController
 
 
     #[Route('/cabinet/{id}', name: 'cabinet_delete', methods: ['DELETE'])]
+    #[IsGranted('delete', 'cabinet')]
     public function deleteCabinet(Cabinet $cabinet): Response
     {
         $this->entityManager->remove($cabinet);
@@ -51,6 +56,7 @@ class CabinetController extends AbstractController
     }
 
     #[Route('/cabinet/{id}', name: 'cabinet_edit', methods: ['PUT'])]
+    #[IsGranted('edit', 'request')]
     public function editCabinet(CabinetRequest $request, Cabinet $cabinet): JsonResponse
     {
         $cabinet = $this->cabinetService->editCabinet($cabinet, $request);

@@ -2,8 +2,6 @@
 
 namespace App\Model\Employee;
 
-use Doctrine\Common\Collections\Collection;
-
 class EmployeeResponse
 {
     private int $id;

@@ -47,11 +47,21 @@ class Cabinet
     private $updatedAt;
 
     /**
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="Employee")
+     *
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
+     *
+     */
+    private Employee $employee;
+
+    /**
      * @var \Office
      *
      * @ORM\ManyToOne(targetEntity="Office")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="office_id", referencedColumnName="id")
+     *  @ORM\JoinColumn(name="office_id", referencedColumnName="id")
      * })
      */
     private $office;
@@ -115,6 +125,16 @@ class Cabinet
         $this->office = $office;
 
         return $this;
+    }
+
+    public function getEmployee(): Employee
+    {
+        return $this->employee;
+    }
+
+    public function setEmployee(Employee $employee): void
+    {
+        $this->employee = $employee;
     }
 
 

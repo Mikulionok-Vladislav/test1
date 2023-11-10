@@ -16,6 +16,7 @@ class EmployeeFixture extends Fixture
             $employee->setFirstname($faker->firstName);
             $employee->setLastname($faker->lastName);
             $employee->setMiddlename($faker->userName);
+            $employee->setPassword($faker->password(8,30));
             $manager->persist($employee);
         }
         $manager->flush();
