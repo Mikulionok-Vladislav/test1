@@ -97,8 +97,8 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private Collection $phone;
     /**
-*@ORM\Column(name="roles", type="json", length=50, nullable=false)
-*/
+     * @ORM\Column(name="roles", type="json", length=50, nullable=false)
+     */
     private $roles = [];
 
 
@@ -132,8 +132,6 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->phone->toArray();
     }
-
-
 
 
     public function getId(): ?int

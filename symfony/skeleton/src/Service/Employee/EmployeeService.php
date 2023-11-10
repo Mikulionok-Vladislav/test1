@@ -18,8 +18,9 @@ class EmployeeService
     {
     }
 
-    public function listEmployee(array $employee): array
+    public function listEmployee(): array
     {
+        $employee = $this->entityManager->getRepository(Employee::class)->findAll();
         $employeeList = [];
         foreach ($employee as $employeeItem){
             $emails = [];

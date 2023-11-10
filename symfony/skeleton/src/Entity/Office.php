@@ -85,10 +85,10 @@ class Office
      *
      * @ORM\ManyToOne(targetEntity="Employee")
      *
-     *   @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
      *
      */
-    private  Employee $employee;
+    private Employee $employee;
 
     public function getId(): ?int
     {
@@ -198,6 +198,7 @@ class Office
 
         return $this;
     }
+
     public function getEmployee(): ?Employee
     {
         return $this->employee;

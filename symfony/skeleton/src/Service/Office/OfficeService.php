@@ -12,6 +12,7 @@ class OfficeService
     public function __construct(private EntityManagerInterface $entityManager)
     {
     }
+
     public function createOffice(OfficeRequest $request): Office
     {
         $office = new Office();
@@ -39,12 +40,13 @@ class OfficeService
         return $office;
     }
 
-    public function listOffice(array $office): array
+    public function listOffice(): array
     {
-$officeList = [];
-        foreach ($office as $officeItem){
+        $office = $this->entityManager->getRepository(Office::class)->findAll();
+        $officeList = [];
+        foreach ($office as $officeItem) {
 
-            $officeList[] =  new OfficeResponse(
+            $officeList[] = new OfficeResponse(
                 $officeItem->getId(),
                 $officeItem->getName(),
                 $officeItem->getAddress(),
@@ -56,9 +58,11 @@ $officeList = [];
                 $officeItem->getUpdatedAt(),
             );
         }
+        
         return $officeList;
     }
-    public function showOffice(Office $office):OfficeResponse
+
+    public function showOffice(Office $office): OfficeResponse
     {
         return new OfficeResponse(
             $office->getId(),

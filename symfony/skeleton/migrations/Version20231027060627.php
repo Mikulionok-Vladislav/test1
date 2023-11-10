@@ -30,7 +30,6 @@ final class Version20231027060627 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE email DROP CONSTRAINT fk_e7927c748c03f15c');
         $this->addSql('ALTER TABLE email ALTER employee_id DROP NOT NULL');
         $this->addSql('ALTER TABLE email ADD CONSTRAINT fk_e7927c748c03f15c FOREIGN KEY (employee_id) REFERENCES employee (id) NOT DEFERRABLE INITIALLY IMMEDIATE');

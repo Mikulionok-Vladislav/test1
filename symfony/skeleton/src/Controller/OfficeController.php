@@ -21,10 +21,10 @@ class OfficeController extends AbstractController
 
     #[Route('/office', name: 'office_list', methods: ['GET'])]
     #[IsGranted('list', '')]
-    public function officeList():JsonResponse
+    public function officeList(): JsonResponse
     {
-        $office = $this->entityManager->getRepository(Office::class)->findAll();
-        $response = $this->officeService->listOffice($office);
+        $response = $this->officeService->listOffice();
+
         return $this->json($response);
     }
 
@@ -33,6 +33,7 @@ class OfficeController extends AbstractController
     public function getOffice(Office $office): JsonResponse
     {
         $response = $this->officeService->showOffice($office);
+
         return $this->json($response);
     }
 
@@ -43,7 +44,7 @@ class OfficeController extends AbstractController
         $office = $this->officeService->createOffice($request);
         $this->entityManager->flush();
 
-        return $this->json($office,JsonResponse::HTTP_CREATED);
+        return $this->json($office, JsonResponse::HTTP_CREATED);
     }
 
 
@@ -64,8 +65,7 @@ class OfficeController extends AbstractController
         $office = $this->officeService->editoffice($office, $request);
         $this->entityManager->flush();
 
-        return $this->json($office,JsonResponse::HTTP_ACCEPTED);
-
+        return $this->json($office, JsonResponse::HTTP_ACCEPTED);
     }
 }
 

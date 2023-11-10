@@ -31,8 +31,9 @@ class CabinetService
         return $cabinet;
     }
 
-    public function listCabinet(array $cabinet): array
+    public function listCabinet(): array
     {
+        $cabinet = $this->entityManager->getRepository(Cabinet::class)->findAll();
         $cabinetList = [];
         foreach ($cabinet as $cabinetItem){
 

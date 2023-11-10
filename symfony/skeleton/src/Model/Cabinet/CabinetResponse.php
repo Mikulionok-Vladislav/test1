@@ -28,9 +28,11 @@ class CabinetResponse
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): CabinetResponse
     {
         $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): string
@@ -38,9 +40,11 @@ class CabinetResponse
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): CabinetResponse
     {
         $this->name = $name;
+
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -48,9 +52,11 @@ class CabinetResponse
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): void
+    public function setCreatedAt(?\DateTimeInterface $createdAt): CabinetResponse
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
@@ -58,8 +64,10 @@ class CabinetResponse
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): void
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): CabinetResponse
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 }

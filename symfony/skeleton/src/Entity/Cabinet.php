@@ -51,17 +51,17 @@ class Cabinet
      *
      * @ORM\ManyToOne(targetEntity="Employee")
      *
-     *   @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="employee_id", referencedColumnName="id", onDelete="CASCADE")
      *
      */
-    private  Employee $employee;
+    private Employee $employee;
 
     /**
      * @var \Office
      *
      * @ORM\ManyToOne(targetEntity="Office")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="office_id", referencedColumnName="id")
+     *  @ORM\JoinColumn(name="office_id", referencedColumnName="id")
      * })
      */
     private $office;

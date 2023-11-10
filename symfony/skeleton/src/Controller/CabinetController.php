@@ -23,8 +23,7 @@ class CabinetController extends AbstractController
     #[IsGranted('list', '')]
     public function cabinetList():JsonResponse
     {
-        $cabinet = $this->entityManager->getRepository(Cabinet::class)->findAll();
-        $response = $this->cabinetService->listCabinet($cabinet);
+        $response = $this->cabinetService->listCabinet();
         return $this->json($response);
     }
 

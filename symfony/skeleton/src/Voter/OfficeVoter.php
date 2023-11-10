@@ -18,22 +18,25 @@ class OfficeVoter extends Voter
     const CREATE = 'create';
     const LIST = 'list';
 
-    public function __construct(
-        private Security $security,
-    ) {
+    public function __construct(private Security $security)
+    {
     }
+
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (!in_array($attribute, [self::VIEW, self::EDIT,self::CREATE,self::DELETE,self::LIST])) {
+
             return false;
         }
 
         if ($attribute === self::LIST && !$subject){
+
             return true;
         }
 
         if (!$subject instanceof Office) {
             if(!$subject instanceof OfficeRequest){
+
                 return false;
             }
         }
@@ -46,6 +49,7 @@ class OfficeVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof Employee) {
+
             return false;
         }
 
@@ -65,52 +69,64 @@ class OfficeVoter extends Voter
     private function canView(Office $office, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
+
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
                 if($user === $office->getEmployee()) {
+
                     return true;
                 }
             }
         }
+
         return false;
     }
 
     private function canEdit(Office $office, Employee $user): bool
     {
         if ($this->security->isGranted(Roles::Admin)){
+
             return true;
         } else {
             if ($this->security->isGranted(Roles::User)){
                 if($user === $office->getEmployee()) {
+
                     return true;
                 }
             }
         }
+
         return false;
     }
 
     private function canDelete(Employee $user):bool
     {
         if ($this->security->isGranted(Roles::Admin)){
+
             return true;
         }
+
         return false;
     }
 
     private function canCreate(Employee $user):bool
     {
         if ($this->security->isGranted(Roles::Admin)){
+
             return true;
         }
+
         return false;
     }
 
     private function canList(Employee $user)
     {
         if ($this->security->isGranted(Roles::Admin)){
+
             return true;
         }
+
         return false;
     }
 }
